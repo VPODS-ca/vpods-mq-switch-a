@@ -1,0 +1,19 @@
+﻿name: switch-a-ci
+on:
+  pull_request:
+  push:
+    branches: [main, "vpods/hire"]
+  merge_group:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: verify
+        run: |
+          if [ -f FAIL ]; then
+            echo "FAIL marker present"
+            exit 1
+          fi
+          echo "verify ok"
+          test -f PASS || test -f hire-rae.txt || test -f hire-knox.txt || test -f hire3.txt || test -f README.md
